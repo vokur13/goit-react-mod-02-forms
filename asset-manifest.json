@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/goit-react-mod-02-states-events/static/css/main.8d034cb1.css",
+    "main.js": "/goit-react-mod-02-states-events/static/js/main.f9758125.js",
+    "index.html": "/goit-react-mod-02-states-events/index.html",
+    "main.8d034cb1.css.map": "/goit-react-mod-02-states-events/static/css/main.8d034cb1.css.map",
+    "main.f9758125.js.map": "/goit-react-mod-02-states-events/static/js/main.f9758125.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8d034cb1.css",
+    "static/js/main.f9758125.js"
+  ]
+}
