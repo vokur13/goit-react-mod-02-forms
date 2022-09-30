@@ -4,11 +4,12 @@ import React, { Component } from 'react';
 // import Counter from 'components/Counter/Counter';
 // import Dropdown from 'components/Dropdown';
 // import ColorPicker from 'components/ColorPicker/ColorPicker';
-import { ToDoEditor } from '../components/ToDoEditor';
-import { Form } from '../components/Form';
-import { TodoList } from 'components/TodoList';
-import { Filter } from '../components/Filter';
-import initialTodos from '../json/todos.json';
+// import { ToDoEditor } from '../components/ToDoEditor';
+// import { Form } from '../components/Form';
+// import { TodoList } from 'components/TodoList';
+import { Modal } from '../components/Modal';
+// import { Filter } from '../components/Filter';
+// import initialTodos from '../json/todos.json';
 import { nanoid } from 'nanoid';
 
 // const colorPickerOptions = [
@@ -22,9 +23,26 @@ import { nanoid } from 'nanoid';
 
 class App extends Component {
   state = {
-    todos: initialTodos,
+    //     todos: initialTodos,
+    todos: [],
     filter: '',
+    showModal: false,
   };
+
+  componentDidMount() {
+    const todos = localStorage.getItem('todos');
+    const parsedTodos = JSON.parse(todos);
+    if (parsedTodos) {
+      this.setState({ todos: parsedTodos });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.todos !== prevState.todos) {
+    }
+
+    localStorage.setItem('todos', JSON.stringify(this.state.todos));
+  }
 
   addTodo = text => {
     const todo = { id: nanoid(), text, completed: false };
@@ -78,33 +96,53 @@ class App extends Component {
     return todos.reduce((acc, todo) => (todo.completed ? acc + 1 : acc), 0);
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   render() {
-    const { todos, filter } = this.state;
-    const totalTodoCount = todos.length;
-    const completedTodosCount = this.getCompletedTodoCount();
-    const filteredTodos = this.getFilteredItems();
+    const { todos, filter, showModal } = this.state;
+    //     const totalTodoCount = todos.length;
+    //     const completedTodosCount = this.getCompletedTodoCount();
+    //     const filteredTodos = this.getFilteredItems();
 
     return (
       <>
+        <button type="button" onClick={this.toggleModal}>
+          Open modal
+        </button>
+        {showModal && (
+          <Modal>
+            <h1>Hello, this is modal content as chilcdren</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Accusantium natus neque quas beatae consequuntur fuga in
+              inventore, illo magni pariatur. Eaque officia facere, temporibus
+              similique voluptates magni vel soluta assumenda!
+            </p>
+            <button type="button" onClick={this.toggleModal}>
+              Close
+            </button>
+          </Modal>
+        )}
         {/* <h1>Состояние Компонента</h1> */}
         {/* <Counter initialValue={5} /> */}
         {/* <Dropdown /> */}
         {/* <ColorPicker options={colorPickerOptions} /> */}
-
+        {/* 
         <div>
           <p>Total ToDo quantity: {totalTodoCount}</p>
           <p>Total completed: {completedTodosCount}</p>
-        </div>
-
-        <ToDoEditor onSubmit={this.addTodo} />
-
-        <Filter value={filter} onChange={this.changeFilter} />
-
-        <TodoList
+        </div> */}
+        {/* <ToDoEditor onSubmit={this.addTodo} /> */}
+        {/* <Filter value={filter} onChange={this.changeFilter} /> */}
+        {/* <TodoList
           todos={filteredTodos}
           onDeleteTodo={this.deleteTodo}
           onToggleCompleted={this.toggleCompleted}
-        />
+        /> */}
         {/* <Form onSubmit={this.formSubmitHandler} /> */}
       </>
     );
