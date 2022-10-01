@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 // import { Box } from 'components/Box/Box.styled';
 // import Counter from 'components/Counter/Counter';
 // import Dropdown from 'components/Dropdown';
 // import ColorPicker from 'components/ColorPicker/ColorPicker';
-// import { ToDoEditor } from '../components/ToDoEditor';
+import { ToDoEditor } from '../components/ToDoEditor';
 // import { Form } from '../components/Form';
-// import { TodoList } from 'components/TodoList';
+import { TodoList } from 'components/TodoList';
 import { Modal } from '../components/Modal';
-// import { Filter } from '../components/Filter';
-// import initialTodos from '../json/todos.json';
+import { Filter } from '../components/Filter';
+import initialTodos from '../json/todos.json';
 import { nanoid } from 'nanoid';
 
 // const colorPickerOptions = [
@@ -104,9 +104,9 @@ class App extends Component {
 
   render() {
     const { todos, filter, showModal } = this.state;
-    //     const totalTodoCount = todos.length;
-    //     const completedTodosCount = this.getCompletedTodoCount();
-    //     const filteredTodos = this.getFilteredItems();
+    const totalTodoCount = todos.length;
+    const completedTodosCount = this.getCompletedTodoCount();
+    const filteredTodos = this.getFilteredItems();
 
     return (
       <>
@@ -114,7 +114,7 @@ class App extends Component {
           Open modal
         </button>
         {showModal && (
-          <Modal>
+          <Modal onClose={this.toggleModal}>
             <h1>Hello, this is modal content as chilcdren</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -131,14 +131,14 @@ class App extends Component {
         {/* <Counter initialValue={5} /> */}
         {/* <Dropdown /> */}
         {/* <ColorPicker options={colorPickerOptions} /> */}
-        {/* 
-        <div>
+
+        {/* <div>
           <p>Total ToDo quantity: {totalTodoCount}</p>
           <p>Total completed: {completedTodosCount}</p>
-        </div> */}
-        {/* <ToDoEditor onSubmit={this.addTodo} /> */}
-        {/* <Filter value={filter} onChange={this.changeFilter} /> */}
-        {/* <TodoList
+        </div>
+        <ToDoEditor onSubmit={this.addTodo} />
+        <Filter value={filter} onChange={this.changeFilter} />
+        <TodoList
           todos={filteredTodos}
           onDeleteTodo={this.deleteTodo}
           onToggleCompleted={this.toggleCompleted}

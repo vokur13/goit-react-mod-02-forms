@@ -7,13 +7,36 @@ import './Modal.scss';
 //   - Слушатель на keydown для Escape
 //   - Слушатель на клик по Backdrop
 
+const modalRoot = document.querySelector('#modal-root');
+
 export class Modal extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    //     console.log('componentDidMount');
+    window.addEventListener('keydown', this.handleKeyDown);
+  }
+  componentWillUnmount() {
+    //     console.log('componentWillUnmount');
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = e => {
+    if (e.code === 'Escape') {
+      this.props.onClose();
+    }
+  };
+
+  handleBackDropClick = e => {
+    if (e.currentTarget === e.target) {
+      this.props.onClose();
+    }
+  };
+
   render() {
-    return (
-      <div className="Modal__backdrop">
+    return createPortal(
+      <div className="Modal__backdrop" onClick={this.handleBackDropClick}>
         <div className="Modal__content">{this.props.children}</div>
-      </div>
+      </div>,
+      modalRoot
     );
   }
 }
