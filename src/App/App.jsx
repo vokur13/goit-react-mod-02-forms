@@ -8,9 +8,11 @@ import { ToDoEditor } from '../components/ToDoEditor';
 // import { Form } from '../components/Form';
 import { TodoList } from 'components/TodoList';
 import { Modal } from '../components/Modal';
-import { Filter } from '../components/Filter';
+import { Filter } from 'components/TodoFilter';
 import initialTodos from '../json/todos.json';
 import { nanoid } from 'nanoid';
+import { IconButton } from 'components/IconButton';
+import { ReactComponent as AddIcon } from '../icons/add.svg';
 
 // const colorPickerOptions = [
 //   { label: 'red', color: '#F44336' },
@@ -38,15 +40,23 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.todos !== prevState.todos) {
-    }
+    const nextTodos = this.state.todos;
+    const prevTodos = prevState.todos;
 
-    localStorage.setItem('todos', JSON.stringify(this.state.todos));
+    if (nextTodos !== prevTodos) {
+    }
+    localStorage.setItem('todos', JSON.stringify(nextTodos));
+
+    if (nextTodos.length > prevTodos.length && prevTodos.length !== 0) {
+      this.toggleModal();
+    }
   }
 
   addTodo = text => {
     const todo = { id: nanoid(), text, completed: false };
     this.setState(prevState => ({ todos: [todo, ...prevState.todos] }));
+
+    //     this.toggleModal();
   };
 
   deleteTodo = todoId => {
@@ -110,12 +120,15 @@ class App extends Component {
 
     return (
       <>
-        <button type="button" onClick={this.toggleModal}>
+        <IconButton onClick={this.toggleModal} aria-label="Add Todo">
+          <AddIcon width="40px" height="40px" fill="#fff" />
+        </IconButton>
+        {/* <button type="button" onClick={this.toggleModal}>
           Open modal
-        </button>
+        </button> */}
         {showModal && (
           <Modal onClose={this.toggleModal}>
-            <h1>Hello, this is modal content as chilcdren</h1>
+            {/* <h1>Hello, this is modal content as chilcdren</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Accusantium natus neque quas beatae consequuntur fuga in
@@ -124,7 +137,8 @@ class App extends Component {
             </p>
             <button type="button" onClick={this.toggleModal}>
               Close
-            </button>
+            </button> */}
+            <ToDoEditor onSubmit={this.addTodo} />
           </Modal>
         )}
         {/* <h1>Состояние Компонента</h1> */}
@@ -132,17 +146,17 @@ class App extends Component {
         {/* <Dropdown /> */}
         {/* <ColorPicker options={colorPickerOptions} /> */}
 
-        {/* <div>
+        <div>
           <p>Total ToDo quantity: {totalTodoCount}</p>
           <p>Total completed: {completedTodosCount}</p>
         </div>
-        <ToDoEditor onSubmit={this.addTodo} />
+        {/* <ToDoEditor onSubmit={this.addTodo} /> */}
         <Filter value={filter} onChange={this.changeFilter} />
         <TodoList
           todos={filteredTodos}
           onDeleteTodo={this.deleteTodo}
           onToggleCompleted={this.toggleCompleted}
-        /> */}
+        />
         {/* <Form onSubmit={this.formSubmitHandler} /> */}
       </>
     );
